@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Privacy Policy — ТВІЙ-САЙТ"
+  description="Our privacy policy: what data we collect, how we use it, and your rights under GDPR."
+>
+
+<article class="prose prose-lg prose-gray mx-auto">
+  <h1>Privacy Policy</h1>
+
+  <p><em>Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</em></p>
+
+  <h2>1. What We Collect</h2>
+  <p>
+    We collect minimal data:
+  </p>
+  <ul>
+    <li><strong>Email address</strong> — only if you subscribe to our newsletter (optional).</li>
+    <li><strong>Anonymous analytics</strong> — page views via Cloudflare Web Analytics (no cookies, no tracking).</li>
+  </ul>
+
+  <h2>2. Affiliate Tracking</h2>
+  <p>
+    When you click an affiliate link, the retailer (e.g., Amazon) may place a cookie
+    to track the referral. These cookies are set by the retailer, not by us.
+    You can clear cookies in your browser settings at any time.
+  </p>
+
+  <h2>3. Third Parties</h2>
+  <p>
+    We use:
+  </p>
+  <ul>
+    <li><strong>Amazon Associates</strong> — for affiliate links.</li>
+    <li><strong>Cloudflare</strong> — for hosting and anonymous analytics.</li>
+  </ul>
+
+  <h2>4. Your Rights (GDPR)</h2>
+  <p>
+    You have the right to access, correct, or delete any personal data we hold.
+    Contact us at hello@ТВІЙ-ДОМЕН.com. Since we collect almost nothing,
+    this should be straightforward.
+  </p>
+
+  <h2>5. Contact</h2>
+  <p>
+    Questions? Email hello@ТВІЙ-ДОМЕН.com.
+  </p>
+</article>
+
+</BaseLayout>

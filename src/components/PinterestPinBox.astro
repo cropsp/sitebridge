@@ -1,0 +1,27 @@
+---
+interface Props {
+  image: string;
+  description: string;
+  url: string;
+}
+
+const { image, description, url } = Astro.props;
+---
+
+<div class="pin-box my-8 text-center">
+  <img
+    src={image}
+    alt={description}
+    data-pin-url={url}
+    data-pin-description={description}
+    loading="lazy"
+    class="pin-image mx-auto max-w-sm rounded-xl shadow-md"
+  />
+  <button
+    class="save-to-pinterest mx-auto"
+    onclick={`window.open('https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&description=${encodeURIComponent(description)}&media=${encodeURIComponent(image)}', '_blank')`}
+  >
+    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.194-.33 1.361-.052.218-.173.265-.4.159-1.492-.694-2.424-2.875-2.424-4.627 0-3.769 2.737-7.229 7.892-7.229 4.144 0 7.365 2.953 7.365 6.899 0 4.117-2.595 7.431-6.199 7.431-1.211 0-2.348-.63-2.738-1.373 0 0-.599 2.282-.744 2.84-.282 1.084-1.043 2.442-1.553 3.27C9.43 23.553 10.695 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+    Save to Pinterest
+  </button>
+</div>

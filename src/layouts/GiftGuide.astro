@@ -1,0 +1,79 @@
+---
+import { type CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+
+interface Props {
+  entry: CollectionEntry<'blog'>;
+}
+
+const { entry } = Astro.props;
+const { title, description, heroImage, publishDate, tags, ownProduct } = entry.data;
+---
+
+<BaseLayout
+  title={`${title} — ТВІЙ-САЙТ`}
+  description={description}
+  image={heroImage.src}
+  type="product"
+  publishDate={publishDate}
+>
+  <article class="prose prose-lg prose-gray mx-auto max-w-none">
+    <!-- Hero (Pinterest-optimized) -->
+    <img
+      src={heroImage.src}
+      alt={heroImage.alt}
+      class="pin-image w-full max-w-2xl mx-auto rounded-2xl shadow-md not-prose"
+    />
+
+    <!-- Meta -->
+    <div class="mt-6 flex flex-wrap items-center gap-3 text-sm text-gray-500 not-prose">
+      <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
+        🎁 Gift Guide
+      </span>
+      <time datetime={publishDate.toISOString()}>
+        {publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+      </time>
+    </div>
+
+    <h1 class="text-4xl font-bold tracking-tight text-gray-900 mt-4">{title}</h1>
+
+    <!-- Tags -->
+    <div class="flex flex-wrap gap-2 not-prose mb-4">
+      {tags.map((tag) => (
+        <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600">#{tag}</span>
+      ))}
+    </div>
+
+    <!-- Lamamarka Hero Pick -->
+    {ownProduct && (
+      <div class="not-prose my-8 rounded-2xl bg-amber-50 border-2 border-amber-300 p-6">
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <img
+            src={ownProduct.image}
+            alt={ownProduct.name}
+            class="h-24 w-24 shrink-0 rounded-xl object-cover"
+          />
+          <div class="flex-1 text-center sm:text-left">
+            <span class="inline-block rounded-full bg-amber-200 px-2 py-0.5 text-xs font-semibold text-amber-900">🏆 Our Pick</span>
+            <h3 class="mt-1 text-lg font-bold text-gray-900">{ownProduct.name}</h3>
+            <p class="mt-1 text-sm text-gray-600 italic">"{ownProduct.whyPick}"</p>
+            <a href={ownProduct.link} class="cta-own mt-2 text-sm" target="_blank" rel="noopener">
+              Shop Lamamarka →
+            </a>
+          </div>
+        </div>
+      </div>
+    )}
+
+    <!-- MDX Content (ComparisonTable, GiftGuideCard, etc.) -->
+    <slot />
+  </article>
+
+  <hr class="my-12 border-gray-200" />
+
+  <EmailCapture
+    title="More gift ideas?"
+    description="Subscribe for weekly gift guides — curated, tested, and actually useful."
+  />
+</BaseLayout>

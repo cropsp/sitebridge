@@ -1,0 +1,46 @@
+---
+interface Props {
+  name: string;
+  image: string;
+  link: string;
+  isOwnProduct: boolean;
+  whyPick?: string;
+  priceRange?: '$' | '$$' | '$$$';
+  platform?: 'amazon' | 'sovrn' | 'sharesale' | 'direct';
+}
+
+const { name, image, link, isOwnProduct, whyPick, priceRange, platform } = Astro.props;
+const isAffiliateEnabled = import.meta.env.ENABLE_AMAZON_AFFILIATE === 'true';
+
+const affiliateHref = platform === 'amazon' && isAffiliateEnabled
+  ? (link.includes('?') ? `${link}&tag=ТВІЙ-ТЕГ-ТУТ` : `${link}?tag=ТВІЙ-ТЕГ-ТУТ`)
+  : link;
+---
+
+<div class="product-card">
+  <img src={image} alt={name} loading="lazy" />
+  <div class="p-3">
+    <h3 class="text-lg font-semibold text-gray-900">{name}</h3>
+    {priceRange && <span class="inline-block mt-1 rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">{priceRange}</span>}
+
+    {isOwnProduct ? (
+      <div class="mt-3 space-y-2">
+        {whyPick && <p class="text-sm text-gray-600 italic">"{whyPick}"</p>}
+        <a href={link} class="cta-own" target="_blank" rel="noopener">
+          Shop on Lamamarka →
+        </a>
+      </div>
+    ) : (
+      <div class="mt-3">
+        <a
+          href={affiliateHref}
+          class="cta-affiliate"
+          target="_blank"
+          rel="nofollow noopener sponsored"
+        >
+          Check Price →
+        </a>
+      </div>
+    )}
+  </div>
+</div>

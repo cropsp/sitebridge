@@ -1,0 +1,63 @@
+---
+import { type CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+
+interface Props {
+  entry: CollectionEntry<'blog'>;
+}
+
+const { entry } = Astro.props;
+const { title, description, heroImage, publishDate, updatedDate, category, tags } = entry.data;
+---
+
+<BaseLayout
+  title={`${title} — ТВІЙ-САЙТ`}
+  description={description}
+  image={heroImage.src}
+  type="article"
+  publishDate={publishDate}
+>
+  <article class="prose prose-lg prose-gray mx-auto max-w-none">
+    <!-- Hero Image -->
+    <img
+      src={heroImage.src}
+      alt={heroImage.alt}
+      class="pin-image w-full max-w-2xl mx-auto rounded-2xl shadow-md not-prose"
+    />
+
+    <!-- Meta -->
+    <div class="mt-6 flex flex-wrap items-center gap-3 text-sm text-gray-500 not-prose">
+      <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">
+        {category}
+      </span>
+      <time datetime={publishDate.toISOString()}>
+        {publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+      </time>
+      {updatedDate && (
+        <span class="text-xs">
+          (Updated: {updatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })})
+        </span>
+      )}
+    </div>
+
+    <h1 class="text-4xl font-bold tracking-tight text-gray-900 mt-4">{title}</h1>
+
+    <!-- Tags -->
+    <div class="flex flex-wrap gap-2 not-prose mb-8">
+      {tags.map((tag) => (
+        <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600">#{tag}</span>
+      ))}
+    </div>
+
+    <!-- MDX Content -->
+    <slot />
+  </article>
+
+  <hr class="my-12 border-gray-200" />
+
+  <EmailCapture
+    title="Enjoyed this guide?"
+    description="Get more gift ideas like this in your inbox. One email a week, zero spam."
+  />
+</BaseLayout>

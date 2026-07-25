@@ -1,0 +1,18 @@
+---
+interface Props {
+  asin: string;
+  text?: string;
+}
+
+const { asin, text = 'Check Price on Amazon' } = Astro.props;
+const isAffiliateEnabled = import.meta.env.ENABLE_AMAZON_AFFILIATE === 'true';
+
+const baseUrl = `https://www.amazon.com/dp/${asin}`;
+const href = isAffiliateEnabled
+  ? `${baseUrl}?tag=ТВІЙ-ТЕГ-ТУТ`
+  : baseUrl;
+---
+
+<a href={href} target="_blank" rel="nofollow noopener sponsored">
+  {text} →
+</a>

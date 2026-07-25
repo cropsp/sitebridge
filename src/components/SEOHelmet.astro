@@ -1,0 +1,41 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'article' | 'product';
+  publishDate?: Date;
+}
+
+const { title, description, image, type = 'article', publishDate } = Astro.props;
+const siteName = 'ТВІЙ-САЙТ';
+---
+
+<!-- OpenGraph -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={siteName} />
+{image && <meta property="og:image" content={image} />}
+<meta property="og:url" content={Astro.url} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{image && <meta name="twitter:image" content={image} />}
+
+<!-- Schema.org JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': type === 'product' ? 'Product' : 'Article',
+  headline: title,
+  description,
+  image,
+  datePublished: publishDate?.toISOString(),
+  publisher: {
+    '@type': 'Organization',
+    name: siteName,
+  },
+})}>
+</script>
